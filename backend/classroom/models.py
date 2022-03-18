@@ -8,6 +8,7 @@ class Classroom(models.Model):
     def __str__(self) -> str:
         return self.name
 
+
 class Student(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -17,5 +18,14 @@ class Student(models.Model):
 
     def __str__(self) -> str:
         return self.first_name
-        
 
+    # method
+    def get_grade(self):
+        if self.grade < 40:
+            return "Failed"
+        elif 40 < self.grade < 70:
+            return "Pass"
+        elif 70 < self.grade < 100:
+            return "Excellent"
+        else:
+            return "Error"
