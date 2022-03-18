@@ -4,6 +4,7 @@ from django.db import models
 class Classroom(models.Model):
     name = models.CharField(max_length=120)
     student_capacity = models.IntegerField()
+    students = models.ManyToManyField("Student")
 
     def __str__(self) -> str:
         return self.name
