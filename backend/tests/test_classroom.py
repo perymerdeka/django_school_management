@@ -1,6 +1,7 @@
 import random
 from django.test import TestCase
 from mixer.backend.django import mixer
+from classroom.models import Classroom
 
 from classroom.models import Student
 
@@ -18,11 +19,11 @@ class TestStudentModel(TestCase):
         self.assertEqual(payload.last_name, "doe")
 
     def test_student_can_be_created(self):
-        self.assertEqual(self.student1.first_name, "John")
+        assert self.student1.first_name == "John"
 
     def test_pass_grade(self):
         student = mixer.blend(
-            Student, first_name="Tom", averrage_score=random.randint(50, 71)
+            Student, first_name="Tom", averrage_score=random.randint(50, 60)
         )
         self.assertEqual(student.get_grade(), "Pass")
 
@@ -31,3 +32,33 @@ class TestStudentModel(TestCase):
             Student, first_name="Tom", averrage_score=random.randint(70, 100)
         )
         self.assertEqual(student.get_grade(), "Excellent")
+    
+    def test_failed_grade(self):
+        student = mixer.blend(
+            Student, first_name="Tom", averrage_score=random.randint(10, 39)
+        )
+        assert student.get_grade() == "Failed"
+    
+
+    def test_return_correct_name(self):
+        assert str(self.student1) == "John"
+    
+    def test_error_grade(self):
+        student = mixer.blend(
+            Student, first_name="Tom", averrage_score=random.randint(110, 120)
+        )
+        assert student.get_grade() == "Error"
+
+
+    
+
+class TestClassroomModel(TestCase):
+    def setUp(self) -> None:
+        self.classroom = mixer.blend(Classroom, name="IT")
+        self.payload = Classroom.objects.last()
+        return super().setUp()
+
+    def test_return_correct_name(self):
+        assert str(self.payload) == "IT"
+
+
