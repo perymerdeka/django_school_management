@@ -15,7 +15,7 @@ class Student(models.Model):
     last_name = models.CharField(max_length=50)
     admission_number = models.IntegerField(unique=True)
     is_qualified = models.BooleanField(default=False)
-    averrage_score = models.FloatField(null=True, blank=True)
+    averrage_score = models.IntegerField(unique=True)
 
     def __str__(self) -> str:
         return self.first_name

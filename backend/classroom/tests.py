@@ -1,17 +1,13 @@
 import random
 from django.test import TestCase
+from mixer.backend.django import mixer
 
 from .models import Student
 
 # Create your tests here.
 class TestStudentModel(TestCase):
     def setUp(self) -> None:
-        self.student1 = Student.objects.create(
-            first_name="John",
-            last_name="doe",
-            admission_number=1,
-            averrage_score=random.randint(41, 70),
-        )
+        self.student1 = mixer.blend(Student, first_name="John", last_name="doe")
         return super().setUp()
 
     def test_create_student(self):
@@ -25,13 +21,13 @@ class TestStudentModel(TestCase):
         self.assertEqual(self.student1.first_name, "John")
 
     def test_pass_grade(self):
-        self.assertEqual(self.student1.get_grade(), "Pass")
+        student = mixer.blend(
+            Student, first_name="Tom", averrage_score=random.randint(50, 71)
+        )
+        self.assertEqual(student.get_grade(), "Pass")
 
     def test_excelent_grade(self):
-        student_data = Student.objects.create(
-            first_name="John",
-            last_name="doe",
-            admission_number=2,
-            averrage_score=random.randint(70, 100),
+        student = mixer.blend(
+            Student, first_name="Tom", averrage_score=random.randint(70, 100)
         )
-        self.assertEqual(student_data.get_grade(), "Excellent")
+        self.assertEqual(student.get_grade(), "Excellent")
