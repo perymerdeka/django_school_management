@@ -31,7 +31,7 @@ class Student(models.Model):
 
         elif 40 < self.averrage_score < 70:
             return "Pass"
-        elif 70 < self.averrage_score <= 99:
+        elif 70 < self.averrage_score <= 100:
             return "Excellent"
         else:
             return "Error"

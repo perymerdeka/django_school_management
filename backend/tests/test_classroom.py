@@ -30,7 +30,7 @@ class TestStudentModel(TestCase):
 
     def test_excelent_grade(self):
         student = mixer.blend(
-            Student, first_name="Tom", averrage_score=random.randint(70, 100)
+            Student, first_name="Tom", averrage_score=random.randint(70, 99)
         )
         self.assertEqual(student.get_grade(), "Excellent")
 
