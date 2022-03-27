@@ -1,9 +1,11 @@
 from rest_framework.test import APIClient
+from rest_framework import status
 from django.test import TestCase
 from django.urls import reverse
 from mixer.backend.django import mixer
 
 from classroom.models import Student
+
 
 class StudentAPITest(TestCase):
     def setUp(self) -> None:
@@ -12,16 +14,25 @@ class StudentAPITest(TestCase):
         return super().setUp()
 
     def test_student_list_api(self):
-        url: str = reverse('student_list')
+        url: str = reverse("student_list")
         response = self.client.get(url, format="json")
         payload = response.json()
-        
+
         assert response.status_code == 200
         assert response.json != None
         assert len(payload) == 1
-        
+
         for data in payload:
-            assert data['first_name'] == "Tom"
+            assert data["first_name"] == "Tom"
 
-
-    
+    def test_create_student_api(self):
+        data = {
+            "first_name": "John",
+            "last_name": "Doe",
+            "admission_number": 1,
+            "is_qualified": False,
+            "averrage_score": 90,
+        }
+        url: str = reverse("create_student")
+        response = self.client.post(url, data=data, format="json")
+        assert response.status_code == status.HTTP_201_CREATED
