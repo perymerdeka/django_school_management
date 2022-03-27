@@ -36,7 +36,7 @@ class TestStudentModel(TestCase):
 
     def test_failed_grade(self):
         student = mixer.blend(
-            Student, first_name="Tom", averrage_score=random.randint(0, 40)
+            Student, first_name="Tom", averrage_score=random.randint(1, 40)
         )
         assert student.get_grade() == "Failed"
 
