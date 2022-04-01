@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.urls import reverse
 from mixer.backend.django import mixer
 
-from classroom.models import Student
+from apps.classroom.models import Student
 
 
 class StudentAPITest(TestCase):

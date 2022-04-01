@@ -5,7 +5,7 @@ from rest_framework.generics import (
     DestroyAPIView,
 )
 
-from classroom.models import Student
+from apps.classroom.models import Student
 from .serializers import (
     CreateStudentSerializer,
     DestroyStudentSerializer,

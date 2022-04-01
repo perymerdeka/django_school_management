@@ -2,8 +2,8 @@ import random
 from django.test import TestCase
 from mixer.backend.django import mixer
 
-from classroom.models import Classroom
-from classroom.models import Student
+from apps.classroom.models import Classroom
+from apps.classroom.models import Student
 
 # Create your tests here.
 class TestStudentModel(TestCase):

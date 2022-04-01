@@ -9,4 +9,4 @@ DATABASES = {
     }
 }
 
-INSTALLED_APPS += ["classroom.apps.ClassroomConfig"]
+INSTALLED_APPS += ["apps.classroom.apps.ClassroomConfig"]
