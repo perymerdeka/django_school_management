@@ -7,8 +7,6 @@ from rest_framework.generics import (
     RetrieveAPIView,
     DestroyAPIView,
 )
-from mixer.backend.django import mixer
-
 from apps.classroom.models import Student, Classroom
 from .serializers import (
     ClassroomNumberSerializer,
