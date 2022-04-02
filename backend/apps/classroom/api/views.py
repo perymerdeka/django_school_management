@@ -1,12 +1,17 @@
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 from rest_framework.generics import (
     ListAPIView,
     CreateAPIView,
     RetrieveAPIView,
     DestroyAPIView,
 )
+from mixer.backend.django import mixer
 
-from apps.classroom.models import Student
+from apps.classroom.models import Student, Classroom
 from .serializers import (
+    ClassroomNumberSerializer,
     CreateStudentSerializer,
     DestroyStudentSerializer,
     RetrieveStudentSerializer,
@@ -36,3 +41,33 @@ class StudentDeleteAPIView(DestroyAPIView):
     serializer_class = DestroyStudentSerializer
     model = Student
     queryset = Student.objects.all()
+
+
+class ClassroomNumberAPIView(APIView):
+    queryset = Student.objects.all()
+    model = Classroom
+    serializer_class = ClassroomNumberSerializer
+
+    def get(self, *args, **kwargs):
+
+        url_number = self.kwargs.get("student_capacity")
+        print(url_number, "student_capacity")
+
+        classroom_qs = Classroom.objects.filter(student_capacity__gte=url_number)
+        number_of_classes = classroom_qs.count()
+
+        serializer = ClassroomNumberSerializer(classroom_qs, many=True)
+
+        if serializer.is_valid:
+            return Response(
+                {
+                    "classroom_data": serializer.data,
+                    "number_of_classes": number_of_classes,
+                },
+                status=status.HTTP_202_ACCEPTED,
+            )
+        else:
+            return Response(
+                {"Error": "Could not serialize data"},
+                status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION,
+            )
