@@ -27,6 +27,9 @@ jobs:
         pip install -r requirements.txt
     - name: build next js for Frontend
       run: |
+        npm install
+        cd frontend
+        npm run dev
         
     - name: Run Tests
       run: |
