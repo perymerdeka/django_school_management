@@ -3,8 +3,11 @@ from rest_framework import status
 from django.test import TestCase
 from django.urls import reverse
 from mixer.backend.django import mixer
+from django.contrib.auth import get_user_model
+from rest_framework.authtoken.models import Token
 
 from apps.classroom.models import Student
+
 
 
 class StudentAPITest(TestCase):
@@ -17,7 +20,19 @@ class StudentAPITest(TestCase):
             admission_number=1,
             is_qualified=False,
         )
+        
+        # auth token
+        User = get_user_model()
+        our_user = User.objects.create(username="dev", password="devpass")
+
+        # token
+        self.token = Token.objects.create(user=our_user)
+        print(f"Token key: {self.token.key}")
+        
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token.key}")
         return super().setUp()
+    
+    
 
     def test_student_list_api(self):
         url: str = reverse("student_list")
@@ -57,6 +72,4 @@ class StudentAPITest(TestCase):
         assert payload['admission_number'] == self.student_data.admission_number
         assert payload['is_qualified'] == self.student_data.is_qualified
         assert payload['slug'] == self.student_data.slug
-
-
 
