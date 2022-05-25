@@ -26,6 +26,7 @@ jobs:
         pip install -r requirements.txt
     - name: build next js for Frontend
       run: |
+        yarn
         yarn install
         yarn add --dev typescript @types/react @types/node
         cd frontend
