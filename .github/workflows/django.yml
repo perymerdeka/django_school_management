@@ -30,7 +30,6 @@ jobs:
         npm install
         npm add --dev typescript @types/react @types/node
         npm run build
-        npm run start
         
     - name: Run Tests
       run: |
