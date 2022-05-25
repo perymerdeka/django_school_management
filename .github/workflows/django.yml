@@ -29,7 +29,8 @@ jobs:
         yarn install
         yarn add --dev typescript @types/react @types/node
         cd frontend
-        yarn run dev
+        yarn run build
+        yarn run start
         
     - name: Run Tests
       run: |
